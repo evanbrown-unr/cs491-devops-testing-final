@@ -4,11 +4,11 @@ pipeline {
         stage('Build') { 
             agent {
                 docker {
-                    image 'python' 
+                    image 'python:3' 
                 }
             }
             steps {
-                sh 'python -m py_compile blackjack.py card.py deck.py hand.py' 
+                sh 'python3 -m py_compile blackjack.py card.py deck.py hand.py' 
                 stash(name: 'compiled-results', includes: '*.py*') 
             }
         }

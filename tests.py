@@ -70,15 +70,16 @@ class DeckUnitTests(unittest.TestCase):
 
 #####################################################################
 
-# 
+# Tests all code coverage for the Hand
+# Since hand requires the use of card, they are used
+# without having them being drawn from the deck to reduce
+# testing dependencies
 class HandUnitTests(unittest.TestCase):
 	def setup(self):
 		self.hand = Hand()
-		self.deck = Deck()
 
 	def cleanup(self):
 		self.hand = None
-		self.deck = None
 
 	# tests that proper card gets added to hand
 	def test_add_to_hand(self):
@@ -106,6 +107,8 @@ class HandUnitTests(unittest.TestCase):
 
 ### INTEGRATION TESTS ###
 
+# The Blackjack integrations requires that the player and hand object
+# be instantiated 
 class BlackjackIntegreationTests(unittest.TestCase):
 	def setup(self):
 		self.blackjack = Blackjack()
@@ -116,6 +119,7 @@ class BlackjackIntegreationTests(unittest.TestCase):
 		self.blackjack = None
 
 	# tests if bust logic works for player hand
+	# if the player busts, then the game is over and the dealer wins
 	def test_player_busted(self):
 		self.setup()
 		self.blackjack.player.add_to_hand(Card("Spades", "A"))
@@ -127,6 +131,7 @@ class BlackjackIntegreationTests(unittest.TestCase):
 		self.cleanup()
 
 	# tests if bust logic works for dealer hand
+	# if the dealer busts, then the game is over and the player wins
 	def test_dealer_busted(self):
 		self.setup()
 		self.blackjack.dealer.add_to_hand(Card("Spades", "A"))
@@ -138,16 +143,23 @@ class BlackjackIntegreationTests(unittest.TestCase):
 		self.cleanup()
 
 	# tests if check blackjack method properly functions
-	def test_check_blackjack(self):
+	# starts by having player test their hand, first when
+	# it is not a blackjack and then when it is
+	def test_check_blackjack_player(self):
 		self.setup()
 		self.blackjack.player.add_to_hand(Card("Spades", "A"))
 		self.assertEqual((False, False), self.blackjack.check_blackjack())
 		self.blackjack.player.add_to_hand(Card("Hearts", "Q"))
 		self.assertEqual((True, False), self.blackjack.check_blackjack())
+		self.cleanup()
+
+	# same test except for the dealer rather than the player
+	def test_check_blackjack_dealer(self):
+		self.setup()
 		self.blackjack.dealer.add_to_hand(Card("Clubs", "A"))
-		self.assertEqual((True, False), self.blackjack.check_blackjack())
+		self.assertEqual((False, False), self.blackjack.check_blackjack())
 		self.blackjack.dealer.add_to_hand(Card("Diamonds", "Q"))
-		self.assertEqual((True, True), self.blackjack.check_blackjack())
+		self.assertEqual((False, True), self.blackjack.check_blackjack())
 		self.cleanup()
 
 

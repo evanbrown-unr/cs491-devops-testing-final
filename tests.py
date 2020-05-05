@@ -6,6 +6,10 @@ from hand import Hand
 from blackjack import Blackjack
 
 
+## The only code that does not get tested is Blackjack.play() due to the IO invovled.
+## All methods and utility code used in the game loop have been unit and integration tested.
+
+
 ### UNIT TESTS ####
 
 # This is full test coverage for Card because the only
@@ -93,17 +97,22 @@ class HandUnitTests(unittest.TestCase):
 		self.cleanup()
 
 	# tests if hand value is properly calculated
+	# also tests if hand is not properly calculated
 	def test_calculate_hand(self):
 		self.setup()
 		a_spade = Card("Spades", "A")
 		q_hearts = Card("Hearts", "Q")
+		nine_dmnds = Card("Diamonds", "9")
 		self.hand.add_to_hand(a_spade)
 		self.hand.add_to_hand(q_hearts)
 		self.hand.calculate_hand()
 		total = self.hand.get_total_value()
 		self.assertEqual(21, total)
+		self.hand.add_to_hand(nine_dmnds)
+		self.assertNotEqual(21, nine_dmnds)
 		self.cleanup()
 
+##################################################################    
 
 ### INTEGRATION TESTS ###
 
@@ -120,6 +129,7 @@ class BlackjackIntegreationTests(unittest.TestCase):
 
 	# tests if bust logic works for player hand
 	# if the player busts, then the game is over and the dealer wins
+	# also tests if player has not busted
 	def test_player_busted(self):
 		self.setup()
 		self.blackjack.player.add_to_hand(Card("Spades", "A"))
@@ -132,6 +142,7 @@ class BlackjackIntegreationTests(unittest.TestCase):
 
 	# tests if bust logic works for dealer hand
 	# if the dealer busts, then the game is over and the player wins
+	# also tests if dealer as not busted
 	def test_dealer_busted(self):
 		self.setup()
 		self.blackjack.dealer.add_to_hand(Card("Spades", "A"))
@@ -154,6 +165,7 @@ class BlackjackIntegreationTests(unittest.TestCase):
 		self.cleanup()
 
 	# same test except for the dealer rather than the player
+	# also test if there is not a black jack
 	def test_check_blackjack_dealer(self):
 		self.setup()
 		self.blackjack.dealer.add_to_hand(Card("Clubs", "A"))

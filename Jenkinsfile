@@ -15,16 +15,11 @@ pipeline {
         stage('Test') { 
             agent {
                 docker {
-                    image 'qnib/pytest' 
+                    image 'python:3' 
                 }
             }
             steps {
-                sh 'py.test --junit-xml test-reports/results.xml tests.py' 
-            }
-            post {
-                always {
-                    junit 'test-reports/results.xml' 
-                }
+                sh 'python3 --verbose tests.py' 
             }
         }
     }

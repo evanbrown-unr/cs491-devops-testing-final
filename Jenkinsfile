@@ -19,7 +19,7 @@ pipeline {
                 }
             }
             steps {
-                sh 'python3 --verbose tests.py' 
+                sh 'python3 tests.py' 
             }
         }
     }

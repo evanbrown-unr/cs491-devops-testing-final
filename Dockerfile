@@ -1,4 +1,13 @@
 FROM python:3
-ADD blackjack.py/ card.py/ deck.py/ hand.py
+
+# set a directory for the app
+WORKDIR /usr/src/cs491-devops-testing-final
+
+# copy all the files to the container
+COPY . .
+
+# define the port number the container should expose
 EXPOSE 5000
-CMD ["python3", "./blackjack.py"]
+
+# run the command
+CMD ["python", "./blackjack.py"]

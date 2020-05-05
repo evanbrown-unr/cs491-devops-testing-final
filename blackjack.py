@@ -30,7 +30,7 @@ class Blackjack:
 					self.show_results(player_win, dealer_win)
 					continue
 
-				choice = input("hit or stick (h/s)?").lower()
+				choice = input("Hit or stick (h/s)?").lower()
 				while choice not in ["hit", "stick", "h", "s"]:
 					choice = input("Invalid input. Enter Hit or Stick or (h/s)").lower()
 

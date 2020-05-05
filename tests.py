@@ -8,6 +8,9 @@ from blackjack import Blackjack
 
 ### UNIT TESTS ####
 
+# This is full test coverage for Card because the only
+# functionality that it provides is overloading the 
+# __repr__() and __str__() methods
 class CardUnitTests(unittest.TestCase):
 	def setup(self):
 		self.card = Card("Spades", "A")
@@ -16,12 +19,18 @@ class CardUnitTests(unittest.TestCase):
 		self.card = None
 
 	# tests the string representation of a card
+	# tests direct mismatches and case sensitivity
 	def test_str_repr(self):
 		self.setup()
 		self.assertEqual("A of Spades", str(self.card))
 		self.assertNotEqual("Q of Clubs", str(self.card))
+		self.assertNotEqual("2 of Spades", str(self.card))
+		self.assertNotEqual("A of spades", str(self.card))
 		self.cleanup()
 
+########################################################################
+
+# These test all of the functions in the Deck unit
 class DeckUnitTests(unittest.TestCase):
 	def setup(self):
 		self.deck = Deck() # unshuffled deck
@@ -49,6 +58,8 @@ class DeckUnitTests(unittest.TestCase):
 		self.assertNotIn(test_card, self.deck.cards)
 		self.cleanup()
 
+	# tests that one round of dealing removes those two
+	# cards from the main deck
 	def test_deal(self):
 		self.setup()
 		test_card = self.deck.deal()
@@ -57,6 +68,9 @@ class DeckUnitTests(unittest.TestCase):
 		self.assertNotIn(test_card, self.deck.cards)
 		self.cleanup()
 
+#####################################################################
+
+# 
 class HandUnitTests(unittest.TestCase):
 	def setup(self):
 		self.hand = Hand()
